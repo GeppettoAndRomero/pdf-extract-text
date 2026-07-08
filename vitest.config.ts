@@ -19,18 +19,12 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'html'],
       reportsDirectory: 'coverage',
-      // Scope to genuinely unit-testable modules. DOM/integration-heavy utils
-      // (worker manager, zip download, SW registration) and the canvas-bound
-      // renderToBlob are covered by the Playwright e2e suite instead.
-      // imagePipeline.renderToBlob is canvas-bound and verified by the Playwright
-      // e2e suite (both the OffscreenCanvas and main-thread paths), so the module
-      // is intentionally not in the unit-coverage gate.
-      include: [
-        'src/utils/fileValidation.ts',
-        'src/utils/settings.ts',
-        'src/utils/settingsStorage.ts',
-        'src/utils/etaCalculator.ts',
-      ],
+      // Scope to genuinely unit-testable modules. pdfTextEngine's `loadDocument`/
+      // `extractText` (real pdf.js parsing) are DOM/Worker-bound and are verified by
+      // the Playwright e2e suite instead (tests/e2e/conversion.spec.ts, with real PDF
+      // fixtures); the pure reconstruction logic (`joinTextItems`, `buildCombinedText`)
+      // is unit-tested directly.
+      include: ['src/utils/pdfTextEngine.ts', 'src/utils/fileValidation.ts', 'src/utils/appError.ts'],
       thresholds: { lines: 80, functions: 80, statements: 80, branches: 75 },
     },
   },

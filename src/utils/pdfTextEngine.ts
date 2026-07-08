@@ -53,6 +53,9 @@ const SCANNED_TEXT_THRESHOLD = 10;
 // string (Vite's `?url`), not the worker code itself, so it costs nothing upfront.
 import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
+/* v8 ignore start -- browser/pdf.js-worker-dependent; exercised by the Playwright
+   e2e suite (tests/e2e/conversion.spec.ts) with real PDF fixtures in a real browser,
+   not by the Node-based unit tests. */
 let pdfjsPromise: Promise<any> | null = null;
 async function getPdfjs(): Promise<any> {
   if (!pdfjsPromise) {
@@ -97,6 +100,7 @@ async function loadDocument(file: File): Promise<any> {
     throw new AppError('errPdfUnreadable');
   }
 }
+/* v8 ignore stop */
 
 /**
  * Join a page's flat `TextItem`/`TextMarkedContent` list into readable text,
@@ -168,6 +172,10 @@ export function joinTextItems(items: ReadonlyArray<{ str?: string; transform?: n
   return out.replace(/\n{3,}/g, '\n\n').trim();
 }
 
+/* v8 ignore start -- calls loadDocument()/pdf.js's page.getTextContent(); covered by
+   the Playwright e2e suite (real PDF fixtures, real browser), not the Node unit tests.
+   joinTextItems (the actual reconstruction heuristic called inside this loop) IS
+   unit-tested directly above. */
 /**
  * Extract text from every page of a PDF. `onProgress` (optional) is called after
  * each page so the UI can show "page X of N" for larger documents.
@@ -206,6 +214,7 @@ export async function extractText(
     isLikelyScanned: totalNonWhitespace < SCANNED_TEXT_THRESHOLD,
   };
 }
+/* v8 ignore stop */
 
 /**
  * Build the single downloadable/previewable text from extracted pages.
