@@ -1,0 +1,14 @@
+[
+  {
+    "url": "http://localhost:4321/pdf-extract-text/",
+    "isRepresentativeRun": true,
+    "htmlPath": "/Users/dai/Documents/cloudflare/runlocally/.claude/worktrees/agent-a1ed85c84b0286ffe/tools/pdf-extract-text/.lighthouseci/localhost-_pdf_extract_text_-2026_07_08_11_02_25.report.html",
+    "jsonPath": "/Users/dai/Documents/cloudflare/runlocally/.claude/worktrees/agent-a1ed85c84b0286ffe/tools/pdf-extract-text/.lighthouseci/localhost-_pdf_extract_text_-2026_07_08_11_02_25.report.json",
+    "summary": {
+      "performance": 1,
+      "accessibility": 0.98,
+      "best-practices": 1,
+      "seo": 1
+    }
+  }
+]
